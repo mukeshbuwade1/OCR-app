@@ -6,59 +6,24 @@ import ScreenWraper from '../components/ScreenWraper';
 import { images } from '../assets/assets';
 import ButtonComp from '../components/ButtonComp';
 import Loading from '../components/Loading';
+import { handleOpenCam, handleOpenImagePic } from '../methods/Methods';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
 // import 
-const MainScreen = ({navigation}) => {
-    const [textFromImage, setTextFromImage] = React.useState<string>('')
+const MainScreen = ({navigation}:{navigation:NavigationProp<ParamListBase>}) => {
     const [loading, setLoading] = React.useState<boolean>(false)
-
-    let options = {
-        saveToPhotos: true,
-        mediaType: 'photo',
-    }
-    const handleOpenImagePic = async () => {
+    const handleButtonPress =async () => {
         setLoading(true)
-
-        try {
-            const result = await launchImageLibrary(options)
-            console.log(result)
-            if (result.assets?.[0]?.uri) {
-                const text = await TextRecognition.recognize(result.assets?.[0].uri);
-                setTextFromImage(text[0])
-                navigation.navigate("Result",{result:text[0]})
-            }
-            setLoading(false)
-
-        } catch (error) {
-            console.log(error)
-            setLoading(false)
-
+        let res = await handleOpenImagePic();
+        if(res){
+            navigation.navigate("Result", { result:res })
         }
-    }
+        setLoading(false)
 
-    const handleOpenCam = async () => {
-        try {
-            const result = await launchCamera(options);
-            console.log(result)
-            if (result.assets?.[0]?.uri) {
-                console.log("PROCESSING..........")
-                const text = await TextRecognition.recognize(result.assets?.[0].uri);
-                console.log("DONE..........", text)
-                setTextFromImage(text[0])
-                navigation.navigate("Result",{result:text[0]})
-
-            }
-            setLoading(false)
-
-        } catch (error) {
-            console.log(error)
-            setLoading(false)
-
-        }
     }
     return (
         <ScreenWraper>
             {
-               loading? <Loading/>:null
+                loading ? <Loading /> : null
             }
             <View style={styles.container}>
                 <Image source={images.logo} resizeMode='contain' style={{
@@ -66,11 +31,10 @@ const MainScreen = ({navigation}) => {
                 }}
                 />
                 <Text style={styles.heading}>welcome</Text>
-                <Text style={styles.text}>select image to be converted</Text>
+                <Text style={styles.text}>Select image to be converted</Text>
 
                 <ButtonComp style={{}} title='open camera' onPress={handleOpenCam} _text={{}} leftImage={images.aperture} />
-                <ButtonComp style={{}} title='select Image' onPress={handleOpenImagePic} _text={{}} leftImage={images.gallery} />
-               
+                <ButtonComp style={{}} title='select Image' onPress={handleButtonPress} _text={{}} leftImage={images.gallery} />
             </View>
         </ScreenWraper>
     )

@@ -1,18 +1,27 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { Image, ImageSourcePropType, ImageStyle, StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native'
+import React from 'react';
 
-const ButtonComp = ({ title, onPress, style, _text, leftImage }) => {
+interface props {
+    title: string
+    onPress?: () => void
+    style?: StyleProp<ViewStyle>
+    _text?: StyleProp<ViewStyle>
+    imageStyle?: StyleProp<ImageStyle>
+    leftImage?: any
+}
+
+const ButtonComp = ({ title, onPress, style, _text, leftImage, imageStyle }: props) => {
     return (
         <TouchableOpacity
-            style={{ ...styles.box, ...style }}
+            style={[styles.box, style]}
             onPress={onPress}
         >
-            <Image source={leftImage} alt={title} style={
-                styles.buttonIcon
-            } />
+            <Image source={leftImage} alt={title}
+                style={[styles.buttonIcon,imageStyle]}
+            />
 
             <Text
-                style={{ ...styles.tx, ..._text }}
+                style={[styles.tx, _text]}
             >{title}</Text>
         </TouchableOpacity>
     )
@@ -31,7 +40,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         paddingHorizontal: 30,
         marginTop: 20,
-        elevation:5
+        elevation: 5
     },
     tx: {
         textTransform: "uppercase",

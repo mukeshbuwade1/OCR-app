@@ -1442,6 +1442,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     "fastq" "^1.6.0"
 
+"@react-native-clipboard/clipboard@^1.11.2":
+  "integrity" "sha512-bHyZVW62TuleiZsXNHS1Pv16fWc0fh8O9WvBzl4h2fykqZRW9a+Pv/RGTH56E3X2PqzHP38K5go8zmCZUoIsoQ=="
+  "resolved" "https://registry.npmjs.org/@react-native-clipboard/clipboard/-/clipboard-1.11.2.tgz"
+  "version" "1.11.2"
+
 "@react-native-community/cli-clean@^10.1.1":
   "integrity" "sha512-iNsrjzjIRv9yb5y309SWJ8NDHdwYtnCpmxZouQDyOljUdC9MwdZ4ChbtA4rwQyAwgOVfS9F/j56ML3Cslmvrxg=="
   "resolved" "https://registry.npmjs.org/@react-native-community/cli-clean/-/cli-clean-10.1.1.tgz"
@@ -5938,7 +5943,7 @@
   "resolved" "https://registry.npmjs.org/react-native-text-recognition/-/react-native-text-recognition-1.0.0.tgz"
   "version" "1.0.0"
 
-"react-native@*", "react-native@0.71.7":
+"react-native@*", "react-native@>=0.57.0", "react-native@0.71.7":
   "integrity" "sha512-Id6iRLS581fJMFGbBl1jP5uSmjExtGOvw5Gvh7694zISXjsRAsFMmU+izs0pyCLqDBoHK7y4BT7WGPGw693nYw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.71.7.tgz"
   "version" "0.71.7"
@@ -6000,7 +6005,7 @@
     "react-shallow-renderer" "^16.15.0"
     "scheduler" "^0.23.0"
 
-"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^18.2.0", "react@>=16.8", "react@>=17.0.0", "react@18.2.0":
+"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^18.2.0", "react@>=16.0", "react@>=16.8", "react@>=17.0.0", "react@18.2.0":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"

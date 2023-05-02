@@ -2,13 +2,13 @@ import { Dimensions, ImageBackground, SafeAreaView, StyleSheet, Text, View } fro
 import React from 'react'
 import { images } from '../assets/assets'
 const { width, height } = Dimensions.get("window")
-const ScreenWraper = (props) => {
+const ScreenWraper:(props:any)=>JSX.Element = (props) => {
     return (
         <SafeAreaView>
             <ImageBackground source={images.AppBg} resizeMode='cover' style={{
                 width: width, height: height,
             }} >
-                {props.children}
+                {props.children}    
             </ImageBackground>
        </SafeAreaView>
     )

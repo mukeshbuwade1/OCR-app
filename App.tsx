@@ -4,6 +4,7 @@ import MainScreen from './src/screens/MainScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Result from './src/screens/Result';
+import Onboarding from './src/screens/Onboarding';
 
 //https://www.behance.net/gallery/65344605/Image-To-Text-OCR-Mobile-App-Landing-Page-Design
 const Stack = createStackNavigator();
@@ -13,7 +14,8 @@ const App = () => {
     <Stack.Navigator screenOptions={{
       headerShown:false
     }}>
-      <Stack.Screen name="Home" component={MainScreen} />
+      <Stack.Screen name="Onboarding" component={Onboarding} />
+      <Stack.Screen name="MainScreen" component={MainScreen} />
       <Stack.Screen name="Result" component={Result} />
     </Stack.Navigator>
   </NavigationContainer>
