@@ -14,12 +14,17 @@ const data = [
   {
     image: images.onboardCopy,
     title: "Scan image fast & Easy",
-    info: "turn your photos into text turn your photos into text turn your photos into text turn your photos into text"
+    info: "Turn your photos into text in few clicks, click new image or select existing"
   },
   {
     image: images.onboardCopy,
-    title: "Scan image fast & Easy2",
-    info: "22turn your photos into text turn your photos into text turn your photos into text turn your photos into text"
+    title: "use it anywhere",
+    info: "It is now easy to copy result text and use it anywhere you want"
+  },
+  {
+    image: images.onboardCopy,
+    title: "Secure forever",
+    info: "Your data is yours, we are not store you personal photos or any other data"
   },
 ]
 
@@ -49,8 +54,10 @@ const Onboarding = () => {
   }
   const keyExtractor = (item: item, index: number) => index + item.title
   return (
-    <View style={{position:"relative", width: width,
-    height: height,alignItems:"center"}}>
+    <View style={{
+      position: "relative", width: width,
+      height: height, alignItems: "center"
+    }}>
       <FlatList
         ref={imageList}
         showsHorizontalScrollIndicator={false}
@@ -63,14 +70,11 @@ const Onboarding = () => {
       />
       <FlatList
         showsHorizontalScrollIndicator={false}
-        style={{position:"absolute",bottom:100,zIndex:99,
-        
-      }}
-       
+        style={{ position: "absolute", bottom: 100, zIndex: 99, }}
         horizontal
         data={data}
         renderItem={({ item, index }) => (
-          <View style={[styles.dot,{backgroundColor: scrollOffset.index== index?"#000":"#aaa"}]} />
+          <View style={[styles.dot, { backgroundColor: scrollOffset.index == index ? "#000" : "#aaa" }]} />
         )}
         keyExtractor={keyExtractor}
       />
@@ -105,8 +109,9 @@ const styles = StyleSheet.create({
   text: {
     marginVertical: 10,
     fontSize: 14,
-    textAlign: "center"
-    // color: "#fff"
+    textAlign: "center",
+    color: "#000",
+    fontWeight:"500",
   },
   boxContainer: {
     width: width,
@@ -116,29 +121,29 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20
   },
 
-  dot:{
-    width:10,
-    height:10,
-    borderRadius:10,
-    marginHorizontal:3
+  dot: {
+    width: 10,
+    height: 10,
+    borderRadius: 10,
+    marginHorizontal: 3
   },
 
 
-// *************image***********************
-box: {
-  position: "absolute",
-  bottom: 20,
-  // left: width / 3.3,
-  
-  minWidth: 150,
-  backgroundColor: "#1CFFC9",
-  height: 40,
-  justifyContent: "center",
-  alignItems: "center",
-  borderRadius: 20,
-  flexDirection: "row",
-  paddingHorizontal: 30,
-  marginTop: 20,
+  // *************image***********************
+  box: {
+    position: "absolute",
+    bottom: 20,
+    // left: width / 3.3,
+
+    minWidth: 150,
+    backgroundColor: "#1CFFC9",
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    flexDirection: "row",
+    paddingHorizontal: 30,
+    marginTop: 20,
     elevation: 5
   },
   tx: {
