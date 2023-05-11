@@ -3,10 +3,10 @@ import React, { useEffect } from 'react'
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import TextRecognition from 'react-native-text-recognition';
 import ScreenWraper from '../components/ScreenWraper';
-import { images } from '../assets/assets';
+import { COLORS, FONTS, images } from '../assets/assets';
 import ButtonComp from '../components/ButtonComp';
 import Loading from '../components/Loading';
-import { handleOpenCam, handleOpenImagePic } from '../methods/Methods';
+import { getProportionalFontSize, handleOpenCam, handleOpenImagePic, heightPercentageToDP, widthPercentageToDP } from '../methods/Methods';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 // import 
 const MainScreen = ({navigation}:{navigation:NavigationProp<ParamListBase>}) => {
@@ -27,11 +27,11 @@ const MainScreen = ({navigation}:{navigation:NavigationProp<ParamListBase>}) => 
             }
             <View style={styles.container}>
                 <Image source={images.logo} resizeMode='contain' style={{
-                    width: 100, height: 100, marginBottom: 30
+                    width:widthPercentageToDP(30), height: heightPercentageToDP(20), marginBottom: heightPercentageToDP(3)
                 }}
                 />
                 <Text style={styles.heading}>welcome</Text>
-                <Text style={styles.text}>Select image to be converted</Text>
+                <Text style={styles.text}>Import an image to be converted</Text>
 
                 <ButtonComp style={{}} title='open camera' onPress={handleOpenCam} _text={{}} leftImage={images.aperture} />
                 <ButtonComp style={{}} title='select Image' onPress={handleButtonPress} _text={{}} leftImage={images.gallery} />
@@ -44,21 +44,23 @@ export default MainScreen
 
 const styles = StyleSheet.create({
     container: {
-        width: Dimensions.get("window").width,
-        height: Dimensions.get("window").height,
+        width: widthPercentageToDP(100),
+        height: heightPercentageToDP(100),
         justifyContent: 'center',
         alignItems: "center"
     },
     heading: {
-        fontSize: 20,
-        fontWeight: "700",
+        fontSize: getProportionalFontSize(20),
         textTransform: "uppercase",
-        color: "#fff"
+        color: COLORS.light,
+        fontFamily:FONTS.bold,
+        letterSpacing:2
     },
     text: {
+        fontFamily:FONTS.medium,
         marginVertical: 10,
-        fontSize: 14,
-        color: "#fff"
+        fontSize: getProportionalFontSize(12),
+        color:COLORS.light
     },
     button: {
         marginVertical: 5

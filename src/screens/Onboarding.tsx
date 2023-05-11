@@ -1,7 +1,9 @@
 import { Dimensions, FlatList, Image, ImageSourcePropType, ListRenderItem, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useRef, useState } from 'react';
-import { images } from '../assets/assets';
+import { COLORS, FONTS, images } from '../assets/assets';
 import ButtonComp from '../components/ButtonComp';
+import { getProportionalFontSize, heightPercentageToDP, widthPercentageToDP } from '../methods/Methods';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 const { width, height } = Dimensions.get("window");
 
 interface item {
@@ -17,7 +19,7 @@ const data = [
     info: "Turn your photos into text in few clicks, click new image or select existing"
   },
   {
-    image: images.onboardCopy,
+    image: images.onboard2,
     title: "use it anywhere",
     info: "It is now easy to copy result text and use it anywhere you want"
   },
@@ -29,9 +31,25 @@ const data = [
 ]
 
 const Onboarding = () => {
+  const navigation = useNavigation()
   const imageList = useRef<FlatList>(null)
   const [scrollOffset, setScrollOffset] = useState<{ index: number, x: number }>({ index: 0, x: 0 })
 
+  function handleButton() {
+    if (scrollOffset.index == data.length - 1) {
+      navigation.dispatch(
+        CommonActions.reset({
+            index: 0,
+            routes: [{ name: 'MainScreen' }],
+        }),
+    );
+    } else {
+      let index = scrollOffset.index + 1;
+      imageList.current?.scrollToIndex({index})
+      let x = Math.floor(scrollOffset.x + width);
+      setScrollOffset({ index, x })
+    }
+  }
 
   const handleScroll = (scrollState: NativeSyntheticEvent<NativeScrollEvent>) => {
     let x_axis = Math.floor(Number(scrollState.nativeEvent.contentOffset.x))
@@ -56,7 +74,7 @@ const Onboarding = () => {
   return (
     <View style={{
       position: "relative", width: width,
-      height: height, alignItems: "center"
+      height: height, alignItems: "center", backgroundColor: COLORS.light
     }}>
       <FlatList
         ref={imageList}
@@ -80,15 +98,15 @@ const Onboarding = () => {
       />
       <TouchableOpacity
         style={[styles.box]}
-      // onPress={onPress}
+        onPress={handleButton}
       >
-        {/* <Image source={leftImage} alt={title}
-                style={[styles.buttonIcon,imageStyle]}
-            /> */}
 
         <Text
           style={[styles.tx]}
-        >{"next"}</Text>
+        > {scrollOffset.index == data.length - 1 ? "scan now" : "next"}</Text>
+        <Image source={images.right} alt={"next icon"}
+          style={[styles.buttonIcon]}
+        />
       </TouchableOpacity>
     </View>
   )
@@ -101,61 +119,56 @@ const styles = StyleSheet.create({
 
   },
   heading: {
-    fontSize: 20,
-    fontWeight: "700",
+    fontSize: getProportionalFontSize(20),
     textTransform: "capitalize",
-    // color: "#fff"
+    fontFamily: FONTS.bold,
+    color: COLORS.dark,
   },
   text: {
-    marginVertical: 10,
-    fontSize: 14,
+    fontFamily: FONTS.medium,
+    marginVertical: heightPercentageToDP(2),
+    fontSize: getProportionalFontSize(14),
     textAlign: "center",
-    color: "#000",
-    fontWeight:"500",
   },
   boxContainer: {
     width: width,
     height: height,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 20
+    paddingHorizontal: widthPercentageToDP(5)
   },
 
   dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 10,
-    marginHorizontal: 3
+    width: widthPercentageToDP(2),
+    height: widthPercentageToDP(2),
+    borderRadius: getProportionalFontSize(10),
+    marginHorizontal: getProportionalFontSize(3)
   },
 
-
-  // *************image***********************
   box: {
     position: "absolute",
-    bottom: 20,
-    // left: width / 3.3,
-
-    minWidth: 150,
-    backgroundColor: "#1CFFC9",
-    height: 40,
+    bottom: heightPercentageToDP(3),
+    minWidth: widthPercentageToDP(40),
+    height: heightPercentageToDP(5),
+    backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 20,
+    borderRadius: heightPercentageToDP(5),
     flexDirection: "row",
-    paddingHorizontal: 30,
-    marginTop: 20,
-    elevation: 5
+    elevation: 5,
   },
   tx: {
     textTransform: "uppercase",
-    color: "#000",
-    fontWeight: "700"
+    color: COLORS.light,
+    fontFamily: FONTS.bold
   },
   buttonIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 20,
-    tintColor: "#000"
+    width: widthPercentageToDP(4),
+    height: widthPercentageToDP(4),
+    tintColor: COLORS.light,
+    // marginLeft: getProportionalFontSize(15),
+    position: 'absolute',
+    right: heightPercentageToDP(1.5),
+    top: heightPercentageToDP(1.5),
   }
-  // *************image***********************
 })

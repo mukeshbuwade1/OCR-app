@@ -1,5 +1,7 @@
 import { Image, ImageSourcePropType, ImageStyle, StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native'
 import React from 'react';
+import { getProportionalFontSize, heightPercentageToDP, widthPercentageToDP } from '../methods/Methods';
+import { COLORS, FONTS } from '../assets/assets';
 
 interface props {
     title: string
@@ -17,7 +19,7 @@ const ButtonComp = ({ title, onPress, style, _text, leftImage, imageStyle }: pro
             onPress={onPress}
         >
             <Image source={leftImage} alt={title}
-                style={[styles.buttonIcon,imageStyle]}
+                style={[styles.buttonIcon, imageStyle]}
             />
 
             <Text
@@ -31,26 +33,26 @@ export default ButtonComp
 
 const styles = StyleSheet.create({
     box: {
-        minWidth: 150,
-        backgroundColor: "#1CFFC9",
-        height: 40,
+        minWidth: widthPercentageToDP(40),
+        backgroundColor: COLORS.secondary,
+        height: heightPercentageToDP(5),
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 20,
         flexDirection: "row",
-        paddingHorizontal: 30,
-        marginTop: 20,
+        paddingHorizontal: widthPercentageToDP(10),
+        marginTop: heightPercentageToDP(3),
         elevation: 5
     },
     tx: {
         textTransform: "uppercase",
-        color: "#000",
-        fontWeight: "700"
+        color: COLORS.dark,
+        fontFamily: FONTS.bold
     },
     buttonIcon: {
-        width: 20,
-        height: 20,
-        marginRight: 20,
-        tintColor: "#000"
+        width: getProportionalFontSize(20),
+        height: getProportionalFontSize(20),
+        marginRight: getProportionalFontSize(20),
+        tintColor: COLORS.dark
     }
 })
