@@ -1,9 +1,11 @@
 import { Dimensions, FlatList, Image, ImageSourcePropType, ListRenderItem, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { COLORS, FONTS, images } from '../assets/assets';
 import ButtonComp from '../components/ButtonComp';
 import { getProportionalFontSize, heightPercentageToDP, widthPercentageToDP } from '../methods/Methods';
 import { CommonActions, useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { local_store_key } from '../assets/Constant';
 const { width, height } = Dimensions.get("window");
 
 interface item {
@@ -35,17 +37,28 @@ const Onboarding = () => {
   const imageList = useRef<FlatList>(null)
   const [scrollOffset, setScrollOffset] = useState<{ index: number, x: number }>({ index: 0, x: 0 })
 
+  useEffect(() => {
+    (async () => {
+      try {
+        await AsyncStorage.setItem(local_store_key.IS_OLD_USER, JSON.stringify({ oldUser: true }))
+      } catch (error) {
+        console.log(error)
+      }
+    })()
+  }, [])
+
+
   function handleButton() {
     if (scrollOffset.index == data.length - 1) {
       navigation.dispatch(
         CommonActions.reset({
-            index: 0,
-            routes: [{ name: 'MainScreen' }],
+          index: 0,
+          routes: [{ name: 'MainScreen' }],
         }),
-    );
+      );
     } else {
       let index = scrollOffset.index + 1;
-      imageList.current?.scrollToIndex({index})
+      imageList.current?.scrollToIndex({ index })
       let x = Math.floor(scrollOffset.x + width);
       setScrollOffset({ index, x })
     }

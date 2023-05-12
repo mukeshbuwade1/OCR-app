@@ -3,10 +3,12 @@ import React from 'react'
 import ScreenWraper from '../components/ScreenWraper'
 import Header from '../components/Header'
 import Clipboard from '@react-native-clipboard/clipboard';
-import { images } from '../assets/assets';
+import { COLORS, FONTS, images } from '../assets/assets';
 import ButtonComp from '../components/ButtonComp';
+import { heightPercentageToDP, widthPercentageToDP } from '../methods/Methods';
+import LanguageListComponent from '../components/LanguageListComponent';
 
-const marginHorizontal = 10
+const marginHorizontal = widthPercentageToDP(2.5)
 const Result: (props: any) => JSX.Element = (props) => {
     let { result } = props.route.params;
     if (!result) {
@@ -22,6 +24,10 @@ const Result: (props: any) => JSX.Element = (props) => {
         <ScreenWraper>
             <View>
                 <Header />
+
+                {/* <LanguageListComponent  /> */}
+
+
                 <View style={styles.resultContainer}>
                     <Text selectable={true} style={styles.tx}>{result}</Text>
                 </View>
@@ -33,6 +39,7 @@ const Result: (props: any) => JSX.Element = (props) => {
                 leftImage={images.copy}
                 imageStyle={styles.buttonIcon}
             />
+
         </ScreenWraper>
     )
 }
@@ -41,32 +48,32 @@ export default Result
 
 const styles = StyleSheet.create({
     resultContainer: {
-        marginTop: 30,
-        width: Dimensions.get("window").width - (marginHorizontal * 2),
-        minHeight: 100,
-        backgroundColor: "#fff",
+        marginTop: heightPercentageToDP(3),
+        width: widthPercentageToDP(100) - (marginHorizontal * 2),
+        minHeight: heightPercentageToDP(15),
+        backgroundColor: COLORS.light,
         marginHorizontal: marginHorizontal,
-        padding: 15,
+        padding: widthPercentageToDP(4),
         borderRadius: 10
     },
     tx: {
-        color: "#000"
+        color: COLORS.dark,
+        fontFamily: FONTS.medium
     },
 
     box: {
         position: "absolute",
-        bottom: 30,
-        right: 20,
-        minWidth: 100,
-        paddingHorizontal: 20,
+        bottom: heightPercentageToDP(3.5),
+        right: widthPercentageToDP(5),
+        minWidth: widthPercentageToDP(25),
+        paddingHorizontal: widthPercentageToDP(5),
     },
     buttonIcon: {
-        width: 15,
-        height: 15,
-        marginRight: 10,
+        width: widthPercentageToDP(4),
+        height: widthPercentageToDP(4),
+        marginRight: widthPercentageToDP(2.5),
     },
     btnTx: {
-        textTransform: "capitalize",
-
+        fontFamily: FONTS.bold
     }
 })

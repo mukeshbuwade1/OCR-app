@@ -1,23 +1,62 @@
-import { Animated, Image, ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Animated, Image, ImageBackground, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import { getProportionalFontSize, heightPercentageToDP, widthPercentageToDP } from '../methods/Methods'
 import { COLORS, FONTS, images } from '../assets/assets'
+import { CommonActions, useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { local_store_key } from '../assets/Constant'
 
 const Splash = () => {
+    const navigation = useNavigation()
 
     let logo = useRef(new Animated.Value(heightPercentageToDP(0))).current
 
     useEffect(() => {
         Animated.timing(logo, {
-            toValue: -heightPercentageToDP(10),
+            toValue: -heightPercentageToDP(7),
             duration: 1000,
             useNativeDriver: true,
             // delay:1000,
         }).start()
 
-    }, [])
 
-    console.log(logo)
+        setTimeout(() => {
+            navigate()
+        }, 1500)
+
+
+    }, []);
+
+    async function IsUserOpenFirstTime() {
+        try {
+            let res = await AsyncStorage.getItem(local_store_key.IS_OLD_USER)
+            if (res) {
+                if (JSON.parse(res).oldUser) return false
+            }
+            return true
+        } catch (error) {
+            console.log(error)
+            return false
+        }
+    }
+
+    async function navigate() {
+        let isNewUser = await IsUserOpenFirstTime()
+        let route = isNewUser ? "Onboarding" : "MainScreen"
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [{ name: route }]
+            })
+        )
+
+    }
+
+    let opacity = logo.interpolate({
+        inputRange: [-heightPercentageToDP(7), heightPercentageToDP(0)],
+        outputRange: [1, 0],
+        // extrapolate: 'clamp',
+    })
 
     return (
         <ImageBackground source={images.AppBg} style={styles.container}>
@@ -26,12 +65,9 @@ const Splash = () => {
                 <Text style={styles.logoText} >OCR</Text>
             </Animated.View>
             <Animated.View style={{
-                ...styles.loaderContainer, opacity: logo.interpolate({
-                    inputRange: [heightPercentageToDP(0), heightPercentageToDP(5)],
-                    outputRange: [0,1],
-                    extrapolate: 'clamp',
-                })
+                ...styles.loaderContainer, opacity: opacity
             }} >
+                <ActivityIndicator size={"small"} color={COLORS.light} />
                 <Text style={styles.loaderText}>Loading resources</Text>
             </Animated.View>
         </ImageBackground>
@@ -66,7 +102,7 @@ const styles = StyleSheet.create({
     },
     loaderContainer: {
         position: 'absolute',
-        top: heightPercentageToDP(58),
+        top: heightPercentageToDP(52),
         left: widthPercentageToDP(34),
         justifyContent: "center",
         alignItems: "center",

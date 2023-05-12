@@ -63,16 +63,19 @@ export const handleOpenCam = async () => {
         const result = await launchCamera(options);
         console.log(result)
         if (result.assets?.[0]?.uri) {
-            console.log("PROCESSING..........")
-            const text = await TextRecognition.recognize(result.assets?.[0].uri);
-            console.log("DONE..........", text)
-            setTextFromImage(text[0])
-            navigation.navigate("Result", { result: text[0] })
+            return result
+            // console.log("PROCESSING..........")
+            // const text = await TextRecognition.recognize(result.assets?.[0].uri);
+            // console.log("DONE..........", text)
+            // setTextFromImage(text[0])
+            // navigation.navigate("Result", { result: text[0] })
 
         }
+        return{}
 
     } catch (error) {
         console.log(error)
+        return {}
 
     }
 }
@@ -82,14 +85,10 @@ export const handleOpenImagePic = async () => {
     try {
         const result = await launchImageLibrary(options)
         console.log(result.assets?.[0]?.uri)
-        if (result.assets?.[0]?.uri) {
-            let text = await RecognizeText(result.assets?.[0]?.uri)
-            return text
-        }
-
-
+        return result
     } catch (error) {
         console.log(error)
+        return {}
     }
 }
 

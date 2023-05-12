@@ -1,7 +1,8 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { images } from '../assets/assets'
+import { COLORS, FONTS, images } from '../assets/assets'
 import { useNavigation } from '@react-navigation/native';
+import { getProportionalFontSize, widthPercentageToDP } from '../methods/Methods';
 
 const Header = () => {
     const navigation = useNavigation()
@@ -25,21 +26,22 @@ const styles = StyleSheet.create({
         flexDirection:"row"
     },
     left:{
-        width:20,
-        height:20,
+        width:widthPercentageToDP(5),
+        height:widthPercentageToDP(5),
         tintColor:"#fff"
     },
     iconBox:{
-        width:40,
-        height:40,
+        width:widthPercentageToDP(10),
+        height:widthPercentageToDP(10),
         justifyContent:'center',
         alignItems:"center",
 
     },
     heading: {
-        fontSize: 20,
-        fontWeight: "700",
+        fontSize: getProportionalFontSize(20),
+        // fontWeight: "700",
         textTransform: "capitalize",
-        color: "#fff"
+        color:COLORS.light,
+        fontFamily:FONTS.bold
     },
 })
