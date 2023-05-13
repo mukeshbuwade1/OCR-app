@@ -52,6 +52,7 @@ const MainScreen = ({ navigation }: { navigation: NavigationProp<ParamListBase> 
 
                 <ButtonComp style={{}} title='open camera' onPress={()=>handleButtonPress(true)} _text={{}} leftImage={images.aperture} />
                 <ButtonComp style={{}} title='select Image' onPress={()=>handleButtonPress(false)} _text={{}} leftImage={images.gallery} />
+                <ButtonComp style={{}} title='previous' onPress={()=> navigation.navigate("PreviousScan")} _text={{}} leftImage={images.gallery} />
             </View>
         </ScreenWrapper>
     )
