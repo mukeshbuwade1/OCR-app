@@ -113,7 +113,6 @@ const Onboarding = () => {
         style={[styles.box]}
         onPress={handleButton}
       >
-
         <Text
           style={[styles.tx]}
         > {scrollOffset.index == data.length - 1 ? "scan now" : "next"}</Text>

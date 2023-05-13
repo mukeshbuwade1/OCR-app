@@ -12,15 +12,15 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-    <Stack.Navigator screenOptions={{
-      headerShown:false
-    }}>
-      <Stack.Screen name="Splash" component={Splash} />
-      <Stack.Screen name="Onboarding" component={Onboarding} />
-      <Stack.Screen name="MainScreen" component={MainScreen} />
-      <Stack.Screen name="Result" component={Result} />
-    </Stack.Navigator>
-  </NavigationContainer>
+      <Stack.Navigator screenOptions={{
+        headerShown: false
+      }}>
+        {/* <Stack.Screen name="Splash" component={Splash} />
+        <Stack.Screen name="Onboarding" component={Onboarding} />
+        <Stack.Screen name="MainScreen" component={MainScreen} /> */}
+        <Stack.Screen name="Result" component={Result} />
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }
 

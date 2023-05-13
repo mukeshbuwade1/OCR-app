@@ -9,6 +9,10 @@ export const images = {
     logo: require("./images/logo.png"),
     onboard2: require("./images/onboard2.png"),
     right: require("./images/right-arrow.png"),
+    down: require("./images/arrow-down.png"),
+    transfer: require("./images/transfer.png"),
+    translator: require("./images/translator.png"),
+    volume: require("./images/volume.png"),
 }
 
 export const COLORS = {
@@ -16,7 +20,10 @@ export const COLORS = {
     secondary: "#ffdc4a",
     dark_pink: "#ff377a",
     dark: "#333333",
-    light:"#fff"
+    overlay: "#000d",
+    overlay_dim: "#0004",
+    light:"#fff",
+    transparent:"#0000"
 }
 
 export const FONTS = {
@@ -26,4 +33,9 @@ export const FONTS = {
     regular: 'Montserrat-Regular',
     medium: "Montserrat-Medium",
     mediumItalic: "Montserrat-MediumItalic",
+}
+export const ZIndex={
+    loader:1000,
+    filterOverlay:99,
+    filter:100,
 }

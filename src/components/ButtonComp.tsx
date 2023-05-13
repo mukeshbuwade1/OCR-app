@@ -1,4 +1,4 @@
-import { Image, ImageSourcePropType, ImageStyle, StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native'
+import { Image, ImageSourcePropType, ImageStyle, StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
 import React from 'react';
 import { getProportionalFontSize, heightPercentageToDP, widthPercentageToDP } from '../methods/Methods';
 import { COLORS, FONTS } from '../assets/assets';
@@ -7,7 +7,7 @@ interface props {
     title: string
     onPress?: () => void
     style?: StyleProp<ViewStyle>
-    _text?: StyleProp<ViewStyle>
+    _text?: StyleProp<TextStyle>
     imageStyle?: StyleProp<ImageStyle>
     leftImage?: any
 }
@@ -18,9 +18,9 @@ const ButtonComp = ({ title, onPress, style, _text, leftImage, imageStyle }: pro
             style={[styles.box, style]}
             onPress={onPress}
         >
-            <Image source={leftImage} alt={title}
+           {leftImage&& <Image source={leftImage} alt={title}
                 style={[styles.buttonIcon, imageStyle]}
-            />
+            />}
 
             <Text
                 style={[styles.tx, _text]}

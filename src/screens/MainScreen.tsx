@@ -2,7 +2,7 @@ import { ActivityIndicator, Button, Dimensions, Image, StyleSheet, Text, View } 
 import React, { useEffect } from 'react'
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import TextRecognition from 'react-native-text-recognition';
-import ScreenWraper from '../components/ScreenWraper';
+import ScreenWrapper from '../components/ScreenWrapper';
 import { COLORS, FONTS, images } from '../assets/assets';
 import ButtonComp from '../components/ButtonComp';
 import Loading from '../components/Loading';
@@ -38,7 +38,7 @@ const MainScreen = ({ navigation }: { navigation: NavigationProp<ParamListBase> 
 
     }
     return (
-        <ScreenWraper>
+        <ScreenWrapper>
             {
                 loading ? <Loading /> : null
             }
@@ -53,7 +53,7 @@ const MainScreen = ({ navigation }: { navigation: NavigationProp<ParamListBase> 
                 <ButtonComp style={{}} title='open camera' onPress={()=>handleButtonPress(true)} _text={{}} leftImage={images.aperture} />
                 <ButtonComp style={{}} title='select Image' onPress={()=>handleButtonPress(false)} _text={{}} leftImage={images.gallery} />
             </View>
-        </ScreenWraper>
+        </ScreenWrapper>
     )
 }
 

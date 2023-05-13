@@ -1,26 +1,27 @@
-import { StyleSheet, Text, View, Dimensions, ActivityIndicator } from 'react-native'
+import {  Text, View,  ActivityIndicator } from 'react-native'
 import React from 'react'
-
-const { width, height } = Dimensions.get("window")
+import { getProportionalFontSize, heightPercentageToDP, widthPercentageToDP } from '../methods/Methods'
+import { COLORS, ZIndex } from '../assets/assets'
 
 const Loading = () => {
     return (
         <View style={{
-            width: width, height: height,
+            width: widthPercentageToDP(100),
+             height: heightPercentageToDP(100),
             position: "absolute",
-            backgroundColor: "#000d",
-            zIndex: 99,
+            backgroundColor: COLORS.overlay,
+            zIndex: ZIndex.loader,
             justifyContent: "center", alignItems: "center",
             flexDirection:"row"
         }}>
             <Text style={{
-                color: "#fff",
-                fontSize: 20
+                color:COLORS.light,
+                fontSize: getProportionalFontSize(20)
             }}>Processing
             </Text>
             <ActivityIndicator style={{
                 marginLeft:15
-            }} color={'#fff'} />
+            }} color={COLORS.light} />
         </View>
     )
 }

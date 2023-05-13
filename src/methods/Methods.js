@@ -64,14 +64,8 @@ export const handleOpenCam = async () => {
         console.log(result)
         if (result.assets?.[0]?.uri) {
             return result
-            // console.log("PROCESSING..........")
-            // const text = await TextRecognition.recognize(result.assets?.[0].uri);
-            // console.log("DONE..........", text)
-            // setTextFromImage(text[0])
-            // navigation.navigate("Result", { result: text[0] })
-
         }
-        return{}
+        return {}
 
     } catch (error) {
         console.log(error)
@@ -97,10 +91,32 @@ export async function RecognizeText(uri) {
         const textRes = await TextRecognition.recognize(uri);
         console.log("textr", textRes)
         return textRes
-        // navigation.navigate("Result", { result: text[0] })
     } catch (error) {
         console.log("RecognizeText => error in catch", error)
 
     }
 }
 
+
+export const handleTranslate = async (text,targetLanguage) => {    
+    const translatedText = await translateText(text, targetLanguage);
+    return translatedText;
+};
+
+export const translateText = async (text, targetLanguage) => {
+    const apiKey = 'AIzaSyCVL6U956LvuHCeMEaXKVvWssRY7DJmvZU';
+    const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
+    const data = {
+        q: text,
+        target: targetLanguage,
+    };
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+    const json = await response.json();
+    return json.data.translations[0].translatedText;
+};
