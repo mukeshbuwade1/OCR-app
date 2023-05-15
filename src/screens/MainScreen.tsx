@@ -8,14 +8,22 @@ import ButtonComp from '../components/ButtonComp';
 import Loading from '../components/Loading';
 import { RecognizeText, getProportionalFontSize, handleOpenCam, handleOpenImagePic, heightPercentageToDP, widthPercentageToDP } from '../methods/Methods';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import { getMyObject, setObjectValue } from '../methods/AsyncMethods';
+import { constant, local_store_key } from '../assets/Constant';
 // import 
 const MainScreen = ({ navigation }: { navigation: NavigationProp<ParamListBase> }) => {
     const [loading, setLoading] = React.useState<boolean>(false)
-
-    async function OCR(uri:string) {
+    const [allScan, setAllScan] = React.useState<[]>([])
+    async function OCR(uri: string) {
         setLoading(true)
         let res = await RecognizeText(uri)
         if (res) {
+            let arr = [{ uri: uri, text: res }, ...allScan]
+            if (constant.async_length && arr.length>constant.async_length) {
+                arr.length = constant.async_length
+            }
+            let obj = { list: arr }
+            await setObjectValue(local_store_key.PREVIOUS_SCAN, obj)
             navigation.navigate("Result", { result: res })
         } else {
             console.log("ERROR FROM OCR")
@@ -23,12 +31,12 @@ const MainScreen = ({ navigation }: { navigation: NavigationProp<ParamListBase> 
         setLoading(false)
     }
 
-    const handleButtonPress = async (cam:boolean) => {
-        let img_res 
-        if(cam){
-            img_res= await handleOpenCam();
-        }else{
-            img_res= await handleOpenImagePic();
+    const handleButtonPress = async (cam: boolean) => {
+        let img_res
+        if (cam) {
+            img_res = await handleOpenCam();
+        } else {
+            img_res = await handleOpenImagePic();
         }
         if (img_res?.assets?.[0]?.uri) {
             OCR(img_res?.assets?.[0]?.uri)
@@ -37,6 +45,23 @@ const MainScreen = ({ navigation }: { navigation: NavigationProp<ParamListBase> 
         }
 
     }
+
+    useEffect(() => {
+
+        const unsubscribe = navigation.addListener('focus', async () => {
+            let res = await getMyObject(local_store_key.PREVIOUS_SCAN)
+
+            if (res?.list && Array.isArray(res.list))
+                setAllScan(res.list)
+            console.log("get", res)
+
+        });
+
+        // Return the function to unsubscribe from the event so it gets removed on unmount
+        return unsubscribe;
+
+
+    }, [navigation])
     return (
         <ScreenWrapper>
             {
@@ -50,9 +75,9 @@ const MainScreen = ({ navigation }: { navigation: NavigationProp<ParamListBase> 
                 <Text style={styles.heading}>welcome</Text>
                 <Text style={styles.text}>Import an image to be converted</Text>
 
-                <ButtonComp style={{}} title='open camera' onPress={()=>handleButtonPress(true)} _text={{}} leftImage={images.aperture} />
-                <ButtonComp style={{}} title='select Image' onPress={()=>handleButtonPress(false)} _text={{}} leftImage={images.gallery} />
-                <ButtonComp style={{}} title='previous' onPress={()=> navigation.navigate("PreviousScan")} _text={{}} leftImage={images.gallery} />
+                <ButtonComp style={styles.bw} title='open camera' onPress={() => handleButtonPress(true)} _text={{}} leftImage={images.aperture} />
+                <ButtonComp style={styles.bw} title='select Image' onPress={() => handleButtonPress(false)} _text={{}} leftImage={images.gallery} />
+                <ButtonComp style={styles.bw} title=' previous     ' onPress={() => navigation.navigate("PreviousScan", { data: allScan })} _text={{}} leftImage={images.gallery} />
             </View>
         </ScreenWrapper>
     )
@@ -61,6 +86,9 @@ const MainScreen = ({ navigation }: { navigation: NavigationProp<ParamListBase> 
 export default MainScreen
 
 const styles = StyleSheet.create({
+    bw: {
+        width: widthPercentageToDP(60),
+    },
     container: {
         width: widthPercentageToDP(100),
         height: heightPercentageToDP(100),

@@ -13,6 +13,7 @@ export const images = {
     transfer: require("./images/transfer.png"),
     translator: require("./images/translator.png"),
     volume: require("./images/volume.png"),
+    delete: require("./images/delete.png"),
 }
 
 export const COLORS = {
@@ -23,7 +24,8 @@ export const COLORS = {
     overlay: "#000d",
     overlay_dim: "#0004",
     light:"#fff",
-    transparent:"#0000"
+    transparent:"#0000",
+    red:"#f00"
 }
 
 export const FONTS = {

@@ -4,14 +4,14 @@ import { COLORS, FONTS, images } from '../assets/assets'
 import { useNavigation } from '@react-navigation/native';
 import { getProportionalFontSize, widthPercentageToDP } from '../methods/Methods';
 
-const Header = () => {
+const Header = (props) => {
     const navigation = useNavigation()
   return (
     <View style={styles.header} >
         <TouchableOpacity onPress={()=>navigation.goBack()} style={styles.iconBox}>
             <Image source={images.left} style={styles.left} />
         </TouchableOpacity>
-      <Text style={styles.heading} >scan result</Text>
+      <Text style={styles.heading} >{props.title??"scan result"}</Text>
       <View style={styles.iconBox}/>
     </View>
   )

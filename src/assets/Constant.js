@@ -1,7 +1,12 @@
+export const constant={
+    async_length:10
+}
 
 export const local_store_key = {
-    IS_OLD_USER: "@isOldUser"
+    IS_OLD_USER: "@isOldUser",
+    PREVIOUS_SCAN :'@previous'
 }
+
 
 export const language_list = [
     // { id:1, name: "English", code: "en" },
