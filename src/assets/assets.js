@@ -14,6 +14,8 @@ export const images = {
     translator: require("./images/translator.png"),
     volume: require("./images/volume.png"),
     delete: require("./images/delete.png"),
+    camera: require("./images/camera.png"),
+    picture: require("./images/picture.png"),
 }
 
 export const COLORS = {
