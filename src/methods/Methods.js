@@ -1,6 +1,8 @@
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import TextRecognition from 'react-native-text-recognition';
-import { Dimensions, PixelRatio } from 'react-native';
+import { Dimensions, Platform, PermissionsAndroid, PixelRatio } from 'react-native';
+import env from '../env';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
 const { width, height } = Dimensions.get('window');
 
@@ -57,13 +59,21 @@ export const heightPercentageToDP = heightPercent => {
 let options = {
     saveToPhotos: true,
     mediaType: 'photo',
+    quality: 1,
+    cameraType: 'back',
+    selectionLimit: 1,
 }
 export const handleOpenCam = async () => {
     try {
-        const result = await launchCamera(options);
-        console.log(result)
-        if (result.assets?.[0]?.uri) {
-            return result
+        let permission = await requestCameraPermission()
+        if (permission) {
+            const result = await launchCamera(options);
+            console.log(result)
+            if (result.assets?.[0]?.uri) {
+                return result
+            }
+        } else {
+            alert("permission")
         }
         return {}
 
@@ -74,12 +84,16 @@ export const handleOpenCam = async () => {
     }
 }
 
-
 export const handleOpenImagePic = async () => {
     try {
-        const result = await launchImageLibrary(options)
-        console.log(result.assets?.[0]?.uri)
-        return result
+        let permission = await requestImageOrStoragePermission()
+        if (permission) {
+            const result = await launchImageLibrary(options)
+            console.log(result.assets?.[0]?.uri)
+            return result
+        } else {
+            alert("permission")
+        }
     } catch (error) {
         console.log(error)
         return {}
@@ -98,13 +112,13 @@ export async function RecognizeText(uri) {
 }
 
 
-export const handleTranslate = async (text,targetLanguage) => {    
+export const handleTranslate = async (text, targetLanguage) => {
     const translatedText = await translateText(text, targetLanguage);
     return translatedText;
 };
 
 export const translateText = async (text, targetLanguage) => {
-    const apiKey = 'AIzaSyCVL6U956LvuHCeMEaXKVvWssRY7DJmvZU';
+    const apiKey = env.GOOGLE_TRANSLATE_API_KEY;
     const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
     const data = {
         q: text,
@@ -120,3 +134,105 @@ export const translateText = async (text, targetLanguage) => {
     const json = await response.json();
     return json.data.translations[0].translatedText;
 };
+
+async function requestImageOrStoragePermission() {
+    let permission = false;
+    if (Platform.OS == 'ios') {
+        let iosPermission = await check(PERMISSIONS.IOS.PHOTO_LIBRARY)
+        // console.log('iosPermission', iosPermission)
+        if (iosPermission == RESULTS.DENIED) {
+            let iosRequestResult = await request(PERMISSIONS.IOS.PHOTO_LIBRARY)
+            // console.log('iosRequestResult', iosRequestResult)
+            if (iosRequestResult == RESULTS.GRANTED) {
+                permission = true;
+            }
+        }
+        else if (iosPermission == RESULTS.GRANTED) {
+            permission = true;
+        }
+    }
+    else {
+        try {
+            let androidPermission = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE)
+            if (!androidPermission) {
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                    {
+                        title: "image permission",
+                        message: "app_needs_access_to_your_image_library",
+                        buttonNeutral: "ask_me_later",
+                        buttonNegative: "cancel",
+                        buttonPositive: "ok"
+                    }
+                );
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    permission = true;
+                } else {
+                    // console.log("READ_MEDIA_IMAGES permission denied");
+                }
+            }
+            else if (androidPermission) {
+                permission = true;
+            }
+        } catch (err) {
+            console.warn(err);
+        }
+    }
+    // if (!permission)
+    //     Alert.showToast(Constants.labels_for_non_react_files.image_permission_not_available)
+    return permission;
+}
+
+
+
+async function requestCameraPermission() {
+    let permission = false;
+    if (Platform.OS == 'ios') {
+        let iosPermission = await check(PERMISSIONS.IOS.CAMERA)
+        // console.log('iosPermission', iosPermission)
+        if (iosPermission == RESULTS.DENIED) {
+            let iosRequestResult = await request(PERMISSIONS.IOS.CAMERA)
+            // console.log('iosRequestResult', iosRequestResult)
+            if (iosRequestResult == RESULTS.GRANTED) {
+                permission = true;
+            }
+        }
+        else if (iosPermission == RESULTS.GRANTED) {
+            permission = true;
+        }
+    }
+    else {
+        try {
+            let androidPermission = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA)
+            console.log("permission response", androidPermission)
+            if (!androidPermission) {
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.CAMERA,
+                    {
+                        title: "camera",
+                        message: "need camera permission ",
+                        buttonNeutral: "ask_me_later",
+                        buttonNegative: 'cancel',
+                        buttonPositive: 'ok'
+                    }
+                );
+                console.log("first", granted)
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    permission = true;
+                } else {
+                    console.log("Camera permission denied");
+                }
+            }
+            else if (androidPermission) {
+                permission = true;
+            }
+        } catch (err) {
+            console.warn(err);
+        }
+    }
+    // if (!permission)
+    // Alert.showToast(Constants.labels_for_non_react_files.camera_permission_not_available)
+    return permission;
+}
+
+export { requestCameraPermission ,requestImageOrStoragePermission}

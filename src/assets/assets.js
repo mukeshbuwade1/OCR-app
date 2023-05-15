@@ -13,6 +13,8 @@ export const images = {
     transfer: require("./images/transfer.png"),
     translator: require("./images/translator.png"),
     volume: require("./images/volume.png"),
+    camera: require("./images/camera.png"),
+    picture: require("./images/picture.png"),
 }
 
 export const COLORS = {

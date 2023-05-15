@@ -2,7 +2,7 @@ import { Dimensions, FlatList, Image, ImageSourcePropType, ListRenderItem, Nativ
 import React, { useRef, useState, useEffect } from 'react';
 import { COLORS, FONTS, images } from '../assets/assets';
 import ButtonComp from '../components/ButtonComp';
-import { getProportionalFontSize, heightPercentageToDP, widthPercentageToDP } from '../methods/Methods';
+import { getProportionalFontSize, heightPercentageToDP, requestCameraPermission, requestImageOrStoragePermission, widthPercentageToDP } from '../methods/Methods';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { local_store_key } from '../assets/Constant';
@@ -39,6 +39,8 @@ const Onboarding = () => {
 
   useEffect(() => {
     (async () => {
+      await requestCameraPermission();
+      await requestImageOrStoragePermission();
       try {
         await AsyncStorage.setItem(local_store_key.IS_OLD_USER, JSON.stringify({ oldUser: true }))
       } catch (error) {
@@ -46,7 +48,6 @@ const Onboarding = () => {
       }
     })()
   }, [])
-
 
   function handleButton() {
     if (scrollOffset.index == data.length - 1) {
