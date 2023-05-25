@@ -8,6 +8,8 @@ import Onboarding from './src/screens/Onboarding';
 import Splash from './src/screens/Splash';
 import PreviousScan from './src/screens/PreviousScan';
 import NoPermission from './src/screens/NoPermission';
+import Login from './src/screens/Login';
+import Register from './src/screens/Register';
 
 //https://www.behance.net/gallery/65344605/Image-To-Text-OCR-Mobile-App-Landing-Page-Design
 const Stack = createStackNavigator();
@@ -17,6 +19,8 @@ const App = () => {
       <Stack.Navigator screenOptions={{
         headerShown: false
       }}>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Onboarding" component={Onboarding} />
         <Stack.Screen name="MainScreen" component={MainScreen} />

@@ -6,7 +6,7 @@ const ScreenWrapper:(props:any)=>JSX.Element = (props) => {
     return (
         <SafeAreaView>
             <ImageBackground source={images.AppBg} resizeMode='cover' style={{
-                width: width, height: height,
+                width: width, height: height,...props.style
             }} >
                 {props.children}    
             </ImageBackground>

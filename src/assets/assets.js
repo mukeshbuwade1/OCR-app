@@ -30,6 +30,7 @@ export const COLORS = {
     transparent:"#0000",
     red:"#f00",
     gray: "#e0e0e0",
+    inputBg:"#fff5"
 }
 
 export const FONTS = {
