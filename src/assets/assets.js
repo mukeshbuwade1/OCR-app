@@ -16,6 +16,7 @@ export const images = {
     delete: require("./images/delete.png"),
     camera: require("./images/camera.png"),
     picture: require("./images/picture.png"),
+    fileWarning: require("./images/file-warning.png"),
 }
 
 export const COLORS = {
@@ -27,7 +28,8 @@ export const COLORS = {
     overlay_dim: "#0004",
     light:"#fff",
     transparent:"#0000",
-    red:"#f00"
+    red:"#f00",
+    gray: "#e0e0e0",
 }
 
 export const FONTS = {

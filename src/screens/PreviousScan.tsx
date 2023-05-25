@@ -4,50 +4,29 @@ import Header from '../components/Header'
 import ScreenWrapper from '../components/ScreenWrapper'
 import { COLORS, FONTS, images } from '../assets/assets'
 import { getProportionalFontSize, heightPercentageToDP, widthPercentageToDP } from '../methods/Methods'
-import { getMyObject, setObjectValue } from '../methods/AsyncMethods'
+import {  setObjectValue } from '../methods/AsyncMethods'
 import { local_store_key } from '../assets/Constant'
+import EmptyListComp from '../components/EmptyListComp'
+import {  NavigationProp, RouteProp } from '@react-navigation/native'
 
-let temp = [
-    {
-        uri: images._logo,
-        text: "testing things"
-    },
-    {
-        uri: images._logo,
-        text: "testing things"
-    },
-    {
-        uri: images._logo,
-        text: "testing things"
-    },
-    {
-        uri: images._logo,
-        text: "testing things"
-    },
-    {
-        uri: images._logo,
-        text: "testing things"
-    },
-    {
-        uri: images._logo,
-        text: "testing things"
-    },
-    {
-        uri: images._logo,
-        text: "testing things"
-    },
-    {
-        uri: images._logo,
-        text: "testing things"
-    },
-]
+interface props {
+    navigation: NavigationProp<any>,
+    route: RouteProp<myRouteData>
+}
+interface item {
+    uri: string, text: string[] | string
+}
+type myRouteData = {
+    params: {
+        data?: item[]
+    }
+}
 
+const PreviousScan: React.FC<props> = ({ navigation, route }) => {
+    const { data } = route.params || {}
+    const [list, setList] = useState<item[]>(data ?? [])
 
-const PreviousScan = (props) => {
-    const { data } = props.route.params || {}
-    const [list, setList] = useState(data ?? temp)
-
-    const handleDelete = (item, index) => {
+    const handleDelete = (item: item, index: number) => {
         async function deleteItem() {
             let copy = [...list];
             copy.splice(index, 1);
@@ -56,7 +35,7 @@ const PreviousScan = (props) => {
                 setList(copy)
 
             } else {
-                Alert.alert("somthing went wrong")
+                Alert.alert("something went wrong")
             }
         }
 
@@ -74,21 +53,28 @@ const PreviousScan = (props) => {
     return (
         <ScreenWrapper>
             {/* <View style={{ position: "relative" }}> */}
-            <Header title={"Previous Scaned image"} />
-            <Text style={styles.text}>Alert- only 10 recent copies will be stored here. Upgrade to get more space</Text>
+            <Header title={"Previous Scanned image"} />
+            {
+                list?.length > 0
+                    ? <Text style={styles.text}>Alert- only 10 recent copies will be stored here. Upgrade to get more space</Text>
+                    : null
+            }
             <FlatList
                 numColumns={2}
                 // columnWrapperStyle={{
                 //     justifyContent: "space-around"
                 // }}
-               
+
                 contentContainerStyle={{
-                    paddingBottom:heightPercentageToDP(2)
+                    paddingBottom: heightPercentageToDP(2)
                 }}
                 data={list}
+                ListEmptyComponent={EmptyListComp}
                 renderItem={({ item, index }) => (
                     <TouchableOpacity
-                        onPress={() => props.navigation.navigate("Result", { result: item.text })}
+                        onPress={() => navigation.navigate("Result", { result: item.text })}
+
+
                         style={{
                             ...styles.item,
                             // marginRight:index%2==0?0:widthPercentageToDP(2)

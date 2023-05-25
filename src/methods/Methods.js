@@ -73,9 +73,9 @@ export const handleOpenCam = async () => {
                 return result
             }
         } else {
-            alert("permission")
+            // alert("permission")
+            return {permission:"no"}
         }
-        return {}
 
     } catch (error) {
         console.log(error)
@@ -92,7 +92,8 @@ export const handleOpenImagePic = async () => {
             console.log(result.assets?.[0]?.uri)
             return result
         } else {
-            alert("permission")
+            // alert("permission")
+            return {permission:"no"}
         }
     } catch (error) {
         console.log(error)

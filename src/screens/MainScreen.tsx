@@ -1,5 +1,5 @@
 import { ActivityIndicator, Button, Dimensions, Image, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import TextRecognition from 'react-native-text-recognition';
 import ScreenWrapper from '../components/ScreenWrapper';
@@ -19,7 +19,7 @@ const MainScreen = ({ navigation }: { navigation: NavigationProp<ParamListBase> 
         let res = await RecognizeText(uri)
         if (res) {
             let arr = [{ uri: uri, text: res }, ...allScan]
-            if (constant.async_length && arr.length>constant.async_length) {
+            if (constant.async_length && arr.length > constant.async_length) {
                 arr.length = constant.async_length
             }
             let obj = { list: arr }
@@ -31,20 +31,23 @@ const MainScreen = ({ navigation }: { navigation: NavigationProp<ParamListBase> 
         setLoading(false)
     }
 
-    const handleButtonPress = async (cam: boolean) => {
+    const handleButtonPress = useCallback(async (cam: boolean) => {
         let img_res
         if (cam) {
             img_res = await handleOpenCam();
         } else {
             img_res = await handleOpenImagePic();
         }
-        if (img_res?.assets?.[0]?.uri) {
+        if (img_res?.permission=="no") {
+            navigation.navigate("NoPermission")
+        }
+        else if (img_res?.assets?.[0]?.uri) {
             OCR(img_res?.assets?.[0]?.uri)
         } else {
             console.log("ERROR WHEN PICK IMAGE")
         }
 
-    }
+    },[])
 
     useEffect(() => {
 
