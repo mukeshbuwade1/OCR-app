@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "191091264300",
+    "project_id": "ocr-app-26236",
+    "storage_bucket": "ocr-app-26236.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191091264300:android:b20e3259463b3f4e03fa89",
+        "android_client_info": {
+          "package_name": "com.ocr"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCejXPeqVNqZvwKBD7j9oQTr8cz_tSaNW8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

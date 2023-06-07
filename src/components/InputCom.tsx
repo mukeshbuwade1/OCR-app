@@ -12,10 +12,13 @@ interface props {
     label_style?: StyleProp<TextStyle>
     keyboardType?: KeyboardTypeOptions | undefined;
     secureTextEntry?: boolean | undefined
+    isValid:{
+        message:string
+    }
 }
 
 const InputCom = ({ label, placeholder, value, onChangeText,
-     input_style, label_style, keyboardType,secureTextEntry,
+     input_style, label_style, keyboardType,secureTextEntry,isValid
      }: props) => {
     return (
         <View style={styles.box}>
@@ -28,6 +31,7 @@ const InputCom = ({ label, placeholder, value, onChangeText,
                 keyboardType={keyboardType}
                 secureTextEntry={secureTextEntry}
             />
+           { isValid ?<Text style={styles.error}>{isValid.message}</Text>:null}
         </View>
     )
 }
@@ -54,5 +58,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         fontFamily: FONTS.medium,
         color: COLORS.dark
+    },
+    error:{
+        color:COLORS.red,
+        fontSize:getProportionalFontSize(12),
+        fontFamily: FONTS.medium,
+        paddingLeft:10
     }
 })

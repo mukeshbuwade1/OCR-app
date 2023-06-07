@@ -1,13 +1,14 @@
 
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import InputCom from '../components/InputCom'
 import ScreenWrapper from '../components/ScreenWrapper'
 import ButtonComp from '../components/ButtonComp'
 import { COLORS, FONTS, images } from '../assets/assets'
-import { getProportionalFontSize, heightPercentageToDP, widthPercentageToDP } from '../methods/Methods'
+import { getProportionalFontSize, height, heightPercentageToDP, width, widthPercentageToDP } from '../methods/Methods'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-const Register = ({navigation}) => {
+const Register = ({ navigation }) => {
     const initialValue = {
         name: '',
         email: '',
@@ -16,76 +17,82 @@ const Register = ({navigation}) => {
     }
     const [state, setState] = useState(initialValue);
 
-    const handleChange=(key:string,value:string)=>{
+    const handleChange = (key: string, value: string) => {
         setState({
             ...state,
-            [key]:value
+            [key]: value
         })
     }
 
-    const handleSubmit =()=>{
-    console.log("form data : ",state)
+    const handleSubmit = () => {
+        console.log("form data : ", state)
     }
 
     return (
-        <ScreenWrapper style={{
-            justifyContent: "center",
-            alignItems: "center",
-        }}>
-            <Image source={images.logo} resizeMode='contain' style={{
-                width: widthPercentageToDP(20),
-                height: heightPercentageToDP(20),
-                tintColor: COLORS.dark,
-                marginTop: -heightPercentageToDP(20),
-            }}
-            />
+        <ScreenWrapper>
+            <KeyboardAwareScrollView showsVerticalScrollIndicator={false} >
+                <View style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: width,
+                    height: height
+                }}       >
+                    <Image source={images.logo} resizeMode='contain' style={{
+                        width: widthPercentageToDP(20),
+                        height: heightPercentageToDP(20),
+                        tintColor: COLORS.dark,
+                        marginTop: -heightPercentageToDP(20),
+                    }}
+                    />
 
-            <InputCom
-                label='name'
-                placeholder='Mukesh'
-                value={state.name}
-                onChangeText={(text)=>handleChange("name",text)}
-            />
+                    <InputCom
+                        label='name'
+                        placeholder='Mukesh'
+                        value={state.name}
+                        onChangeText={(text) => handleChange("name", text)}
+                    />
 
-            <InputCom
-                label='email'
-                placeholder='mukesh@demo.com'
-                value={state.email}
-                keyboardType={"email-address"}
-                onChangeText={(text)=>handleChange("email",text)}
-            />
+                    <InputCom
+                        label='email'
+                        placeholder='mukesh@demo.com'
+                        value={state.email}
+                        keyboardType={"email-address"}
+                        onChangeText={(text) => handleChange("email", text)}
+                    />
 
-            <InputCom
-                label='password'
-                placeholder="Quz@90Hh"
-                value={state.password}
-                secureTextEntry={true}
-                onChangeText={(text)=>handleChange("password",text)}
-                />
+                    <InputCom
+                        label='password'
+                        placeholder="Quz@90Hh"
+                        value={state.password}
+                        secureTextEntry={true}
+                        onChangeText={(text) => handleChange("password", text)}
+                    />
 
-            <InputCom
-                label='conform password'
-                placeholder="Quz@90Hh"
-                value={state.confirmPassword}
-                secureTextEntry={true}
-                onChangeText={(text)=>handleChange("confirmPassword",text)}
-            />
+                    <InputCom
+                        label='conform password'
+                        placeholder="Quz@90Hh"
+                        value={state.confirmPassword}
+                        secureTextEntry={true}
+                        onChangeText={(text) => handleChange("confirmPassword", text)}
+                    />
 
-            <ButtonComp title='Register now' onPress={handleSubmit} />
+                    <ButtonComp title='Register now' onPress={handleSubmit} />
 
-            <View style={{
-                position: 'absolute',
-                bottom: heightPercentageToDP(5),
-                alignItems: "center"
-            }}>
-                <TouchableOpacity onPress={()=>navigation.navigate("Login")} >
-                    <Text style={styles.already}>Already have an account? Login</Text>
-                </TouchableOpacity>
-                <TouchableOpacity >
-                    <Text style={styles.privacy}>Learn more about our privacy policy</Text>
-                </TouchableOpacity>
+                    <View style={{
+                        position: 'absolute',
+                        bottom: heightPercentageToDP(5),
+                        alignItems: "center"
+                    }}>
+                        <TouchableOpacity onPress={() => navigation.navigate("Login")} >
+                            <Text style={styles.already}>Already have an account? Login</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity >
+                            <Text style={styles.privacy}>Learn more about our privacy policy</Text>
+                        </TouchableOpacity>
 
-            </View>
+                    </View>
+                </View>
+            </KeyboardAwareScrollView>
         </ScreenWrapper>
     )
 }
