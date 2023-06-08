@@ -7,16 +7,34 @@ import { COLORS, FONTS, images } from '../assets/assets'
 import { getProportionalFontSize, height, heightPercentageToDP, width, widthPercentageToDP } from '../methods/Methods'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import auth from '@react-native-firebase/auth';
+import { useForm } from "react-hook-form";
+
+export interface err_obj {
+    message: string
+}
+
+export interface err_type {
+    email: undefined | err_obj
+    password: undefined | err_obj
+}
+export interface form_type {
+    email: string
+    password: string
+}
 
 const Login = ({ navigation }) => {
-    const [state, setState] = useState({
+    const initialValues = {
         email: '', password: ""
-    })
-    const [error, setError] = useState({
+    }
+    const initialErrObj = {
+        email: undefined, password: undefined
+    }
 
-    })
+    const [state, setState] = useState(initialValues)
+    const [errors, setErrors] = useState<err_type>(initialErrObj)
 
-    const handleChange = (key: string, value: string) => {
+    const handleChange = (key: "email"|"password", value: string) => {
+        removeErrorWhenUserIsTyping(key);
         setState({
             ...state,
             [key]: value
@@ -26,7 +44,7 @@ const Login = ({ navigation }) => {
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
         const { email, password } = state
         let valid = true;
-        let obj = new Object()
+        let obj: err_type = {...initialErrObj}
         if (!email || email.trim() === '') {
             obj.email = {
                 message: "Email required",
@@ -50,7 +68,7 @@ const Login = ({ navigation }) => {
             }
             valid = false
         }
-        setError(obj)
+        setErrors(obj)
         return valid
     }
 
@@ -58,7 +76,7 @@ const Login = ({ navigation }) => {
         if (!checkFormValidation()) {
             return
         }
-        // return
+
         auth()
             .signInWithEmailAndPassword(state.email, state.password)
             .then(() => {
@@ -66,7 +84,7 @@ const Login = ({ navigation }) => {
                 console.log('User account created & signed in!');
             })
             .catch(error => {
-                console.log('error',error.code);
+                console.log('error', error.code);
                 if (error.code === 'auth/wrong-password') {
                     console.log('incorrect password');
                 }
@@ -77,6 +95,13 @@ const Login = ({ navigation }) => {
 
                 console.error(error);
             });
+    }
+    function removeErrorWhenUserIsTyping(key: "email"|"password") {
+        let obj_copy = { ...errors }
+        if (obj_copy[key] !== initialErrObj[key]) {
+            obj_copy[key] = initialErrObj[key]
+            setErrors(obj_copy)
+        }
     }
     return (
         <ScreenWrapper >
@@ -101,7 +126,7 @@ const Login = ({ navigation }) => {
                         value={state.email}
                         keyboardType={"email-address"}
                         onChangeText={(text) => handleChange("email", text)}
-                        isValid={error.email} 
+                        isValid={errors.email}
                     />
 
                     <InputCom
@@ -110,7 +135,7 @@ const Login = ({ navigation }) => {
                         value={state.password}
                         secureTextEntry={true}
                         onChangeText={(text) => handleChange("password", text)}
-                        isValid={error.password} 
+                        isValid={errors.password}
                     />
 
                     <TouchableOpacity style={{

@@ -2,8 +2,11 @@ import { KeyboardTypeOptions, StyleProp, StyleSheet, Text, TextInput, TextStyle,
 import React from 'react'
 import { getProportionalFontSize, heightPercentageToDP, widthPercentageToDP } from '../methods/Methods'
 import { COLORS, FONTS } from '../assets/assets';
+import { Control, Controller, FieldError, FieldValues } from 'react-hook-form';
+import { err_obj, err_type, form_type } from '../screens/Login';
 
 interface props {
+ 
     label: string;
     placeholder?: string | undefined;
     value?: string | undefined
@@ -12,17 +15,17 @@ interface props {
     label_style?: StyleProp<TextStyle>
     keyboardType?: KeyboardTypeOptions | undefined;
     secureTextEntry?: boolean | undefined
-    isValid:{
-        message:string
-    }
+    isValid?: err_obj;
+  
 }
 
-const InputCom = ({ label, placeholder, value, onChangeText,
-     input_style, label_style, keyboardType,secureTextEntry,isValid
-     }: props) => {
+const InputCom = ({  label, placeholder, value, onChangeText,
+    input_style, label_style, keyboardType, secureTextEntry, isValid
+}: props) => {
     return (
         <View style={styles.box}>
             <Text style={[styles.label, label_style]}>{label}</Text>
+
             <TextInput
                 placeholder={placeholder}
                 value={value}
@@ -31,7 +34,9 @@ const InputCom = ({ label, placeholder, value, onChangeText,
                 keyboardType={keyboardType}
                 secureTextEntry={secureTextEntry}
             />
-           { isValid ?<Text style={styles.error}>{isValid.message}</Text>:null}
+
+
+            {isValid ? <Text style={styles.error}>{isValid.message}</Text> : null}
         </View>
     )
 }
@@ -59,10 +64,10 @@ const styles = StyleSheet.create({
         fontFamily: FONTS.medium,
         color: COLORS.dark
     },
-    error:{
-        color:COLORS.red,
-        fontSize:getProportionalFontSize(12),
+    error: {
+        color: COLORS.red,
+        fontSize: getProportionalFontSize(12),
         fontFamily: FONTS.medium,
-        paddingLeft:10
+        paddingLeft: 10
     }
 })

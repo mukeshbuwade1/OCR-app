@@ -7,6 +7,16 @@ import ButtonComp from '../components/ButtonComp'
 import { COLORS, FONTS, images } from '../assets/assets'
 import { getProportionalFontSize, height, heightPercentageToDP, width, widthPercentageToDP } from '../methods/Methods'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { err_obj } from "./Login"
+
+interface err_type {
+    email: undefined | err_obj
+    password: undefined | err_obj
+    name: undefined | err_obj;
+    confirmPassword: undefined | err_obj
+}
+
+type allKeys = "name" | "email" | "password" | "confirmPassword"
 
 const Register = ({ navigation }) => {
     const initialValue = {
@@ -15,17 +25,73 @@ const Register = ({ navigation }) => {
         password: '',
         confirmPassword: ''
     }
+    const initialErrObj = {
+        name: undefined,
+        email: undefined,
+        password: undefined,
+        confirmPassword: undefined
+    }
     const [state, setState] = useState(initialValue);
+    const [errors, setErrors] = useState<err_type>(initialErrObj)
 
-    const handleChange = (key: string, value: string) => {
+    const handleChange = (key: allKeys, value: string) => {
+        removeErrorWhenUserIsTyping(key);
         setState({
             ...state,
             [key]: value
         })
     }
 
+    function checkFormValidation() {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+        const { name, email, password, confirmPassword } = state
+        let valid = true;
+        let obj: err_type = { ...initialErrObj }
+
+        for (let [key] of Object.entries(errors)) {
+            if (email && !reg.test(email)) {
+                obj.email = {
+                    message: "Email is invalid",
+                }
+                valid = false
+            }
+            if (password && password.length < 6) {
+                obj.password = {
+                    message: "Minimum 6 character required",
+                }
+                valid = false
+            }
+            if (confirmPassword && password !== confirmPassword) {
+                obj.confirmPassword = {
+                    message: "passwird and cp should be same",
+                }
+                valid = false
+            }
+
+            if (!state[key] || state[key].trim() == '') {
+                obj[key] = {
+                    message: key + " is required",
+                }
+                valid = false
+            }
+        }
+        setErrors(obj)
+        return valid
+    }
+
     const handleSubmit = () => {
+        if (!checkFormValidation()) {
+            return
+        }
         console.log("form data : ", state)
+    }
+
+    function removeErrorWhenUserIsTyping(key: allKeys) {
+        let obj_copy = { ...errors }
+        if (obj_copy[key] !== initialErrObj[key]) {
+            obj_copy[key] = initialErrObj[key]
+            setErrors(obj_copy)
+        }
     }
 
     return (
@@ -50,6 +116,7 @@ const Register = ({ navigation }) => {
                         placeholder='Mukesh'
                         value={state.name}
                         onChangeText={(text) => handleChange("name", text)}
+                        isValid={errors.name}
                     />
 
                     <InputCom
@@ -58,6 +125,7 @@ const Register = ({ navigation }) => {
                         value={state.email}
                         keyboardType={"email-address"}
                         onChangeText={(text) => handleChange("email", text)}
+                        isValid={errors.email}
                     />
 
                     <InputCom
@@ -66,6 +134,7 @@ const Register = ({ navigation }) => {
                         value={state.password}
                         secureTextEntry={true}
                         onChangeText={(text) => handleChange("password", text)}
+                        isValid={errors.password}
                     />
 
                     <InputCom
@@ -74,6 +143,7 @@ const Register = ({ navigation }) => {
                         value={state.confirmPassword}
                         secureTextEntry={true}
                         onChangeText={(text) => handleChange("confirmPassword", text)}
+                        isValid={errors.confirmPassword}
                     />
 
                     <ButtonComp title='Register now' onPress={handleSubmit} />
