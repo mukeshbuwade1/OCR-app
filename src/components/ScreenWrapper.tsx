@@ -5,9 +5,12 @@ const { width, height } = Dimensions.get("window")
 const ScreenWrapper:(props:any)=>JSX.Element = (props) => {
     return (
         <SafeAreaView>
-            <ImageBackground source={images.AppBg} resizeMode='cover' style={{
-                width: width, height: height,
-            }} >
+            <ImageBackground source={images.AppBg} resizeMode='cover' 
+            style={{
+                // minWidth: width, minHeight: height,
+                ...props.style
+            }} 
+            >
                 {props.children}    
             </ImageBackground>
        </SafeAreaView>

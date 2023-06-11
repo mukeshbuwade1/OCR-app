@@ -4,7 +4,7 @@ import { Dimensions, Platform, PermissionsAndroid, PixelRatio } from 'react-nati
 import env from '../env';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
-const { width, height } = Dimensions.get('window');
+export const { width, height } = Dimensions.get('window');
 
 const guidelineBaseWidth = 360;
 const guidelineBaseHeight = 760;
@@ -73,9 +73,9 @@ export const handleOpenCam = async () => {
                 return result
             }
         } else {
-            alert("permission")
+            // alert("permission")
+            return {permission:"no"}
         }
-        return {}
 
     } catch (error) {
         console.log(error)
@@ -92,7 +92,8 @@ export const handleOpenImagePic = async () => {
             console.log(result.assets?.[0]?.uri)
             return result
         } else {
-            alert("permission")
+            // alert("permission")
+            return {permission:"no"}
         }
     } catch (error) {
         console.log(error)
