@@ -16,6 +16,7 @@ export const images = {
     delete: require("./images/delete.png"),
     camera: require("./images/camera.png"),
     picture: require("./images/picture.png"),
+    ocr: require("./images/ocr.png"),
 }
 
 export const COLORS = {
