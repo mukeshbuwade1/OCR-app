@@ -12,7 +12,7 @@ interface props {
     leftImage?: any
 }
 
-const ButtonComp = ({ title, onPress, style, _text, leftImage, imageStyle }: props) => {
+const ButtonComp = ({ title, onPress, style, _text, leftImage, imageStyle }: props) => {  
     return (
         <TouchableOpacity
             style={[styles.box, style]}
