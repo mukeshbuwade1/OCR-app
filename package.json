@@ -16,6 +16,7 @@
     "@react-native-firebase/auth": "^17.5.0",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
+    "lottie-react-native": "^5.1.6",
     "react": "18.2.0",
     "react-hook-form": "^7.44.3",
     "react-native": "0.71.7",

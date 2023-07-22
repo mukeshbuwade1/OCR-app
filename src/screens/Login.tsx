@@ -84,16 +84,14 @@ const Login = ({ navigation }) => {
                 console.log('User account created & signed in!');
             })
             .catch(error => {
-                console.log('error', error.code);
                 if (error.code === 'auth/wrong-password') {
                     console.log('incorrect password');
-                }
-
+                    Alert.alert("Incorrect Password")
+                }                
                 if (error.code === 'auth/user-not-found') {
                     console.log('That email address is invalid!');
+                    Alert.alert("That email address is invalid!")
                 }
-
-                console.error(error);
             });
     }
     function removeErrorWhenUserIsTyping(key: "email"|"password") {

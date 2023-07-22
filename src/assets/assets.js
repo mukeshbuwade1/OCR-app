@@ -16,7 +16,9 @@ export const images = {
     delete: require("./images/delete.png"),
     camera: require("./images/camera.png"),
     picture: require("./images/picture.png"),
+    ocr: require("./images/ocr.png"),
     fileWarning: require("./images/file-warning.png"),
+    scan_file: require("./images/scan_animation.json"),
 }
 
 export const COLORS = {
