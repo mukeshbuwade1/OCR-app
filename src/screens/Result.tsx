@@ -8,6 +8,7 @@ import ButtonComp from '../components/ButtonComp';
 import { getProportionalFontSize, handleTranslate, heightPercentageToDP, widthPercentageToDP } from '../methods/Methods';
 import LanguageListComponent, { item } from '../components/LanguageListComponent';
 import TTSView from '../components/TTSView';
+const { width, height } = Dimensions.get("window")
 
 const marginHorizontal = widthPercentageToDP(2.5)
 const Result: (props: any) => JSX.Element = (props) => {
@@ -40,7 +41,7 @@ const Result: (props: any) => JSX.Element = (props) => {
     }
     return (
         <ScreenWrapper>
-            <View style={{ position: "relative" }}>
+            <View style={{ position: "relative" ,minWidth: width, minHeight: height,}}>
 
                 <Header />
 

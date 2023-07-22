@@ -5,7 +5,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { getProportionalFontSize, widthPercentageToDP } from '../methods/Methods';
 
 const Header = ({title}:{
-    title:string
+    title?:string
 }) => {
     const navigation = useNavigation()
     return (

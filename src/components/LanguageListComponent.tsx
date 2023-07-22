@@ -1,4 +1,4 @@
-import { Animated, Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Animated, Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { language_list } from '../assets/Constant'
 import { getProportionalFontSize, heightPercentageToDP, widthPercentageToDP } from '../methods/Methods'
@@ -54,7 +54,8 @@ const LanguageListComponent = (props: props) => {
   }
 
   return (
-    <Animated.View style={{ ...styles.screenOverlay, transform: [{ translateX: overlayRef }] }} >
+    <Animated.View  style={{ ...styles.screenOverlay, transform: [{ translateX: overlayRef }] }} >
+      <View  />
       <Animated.View style={{
         ...styles.filter, transform: [{
           translateX: overlayRef.interpolate({

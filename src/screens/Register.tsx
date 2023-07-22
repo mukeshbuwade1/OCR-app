@@ -63,7 +63,7 @@ const Register = ({ navigation }) => {
             }
             if (confirmPassword && password !== confirmPassword) {
                 obj.confirmPassword = {
-                    message: "passwird and cp should be same",
+                    message: "password and conform password should be same",
                 }
                 valid = false
             }
