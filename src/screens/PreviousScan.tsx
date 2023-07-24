@@ -1,4 +1,4 @@
-import { Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import ScreenWrapper from '../components/ScreenWrapper'
@@ -51,7 +51,9 @@ const PreviousScan: React.FC<props> = ({ navigation, route }) => {
     }
 
     return (
-        <ScreenWrapper>
+        <ScreenWrapper style={{
+            minHeight:Dimensions.get("window").height
+        }}>
             {/* <View style={{ position: "relative" }}> */}
             <Header title={"Previous Scanned image"} />
             {

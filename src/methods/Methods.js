@@ -87,6 +87,7 @@ export const handleOpenCam = async () => {
 export const handleOpenImagePic = async () => {
     try {
         let permission = await requestImageOrStoragePermission()
+        console.log("first",permission)
         if (permission) {
             const result = await launchImageLibrary(options)
             console.log(result.assets?.[0]?.uri)
@@ -154,10 +155,10 @@ async function requestImageOrStoragePermission() {
     }
     else {
         try {
-            let androidPermission = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE)
+            let androidPermission = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES)
             if (!androidPermission) {
                 const granted = await PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                    PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
                     {
                         title: "image permission",
                         message: "app_needs_access_to_your_image_library",
@@ -169,7 +170,7 @@ async function requestImageOrStoragePermission() {
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                     permission = true;
                 } else {
-                    // console.log("READ_MEDIA_IMAGES permission denied");
+                    console.log("READ_MEDIA_IMAGES permission denied",granted);
                 }
             }
             else if (androidPermission) {

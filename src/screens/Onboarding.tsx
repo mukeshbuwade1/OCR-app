@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, Image, ImageSourcePropType, ListRenderItem, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, FlatList, Image, ImageSourcePropType, ListRenderItem, NativeScrollEvent, NativeSyntheticEvent, PermissionsAndroid, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useRef, useState, useEffect } from 'react';
 import { COLORS, FONTS, images } from '../assets/assets';
 import ButtonComp from '../components/ButtonComp';
@@ -37,10 +37,30 @@ const Onboarding = () => {
   const imageList = useRef<FlatList>(null)
   const [scrollOffset, setScrollOffset] = useState<{ index: number, x: number }>({ index: 0, x: 0 })
 
+  async function GetAllPermissions() {
+    try {
+      if (Platform.OS === "android") {
+        const result = await PermissionsAndroid.requestMultiple([
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
+        ]);
+
+        if (result['android.permission.CAMERA'] === 'granted'&&result['android.permission.READ_MEDIA_IMAGES'] === 'granted' ) {
+          console.log("permission granted");
+          
+        } else {
+          console.log("permission denied");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  }
+
   useEffect(() => {
     (async () => {
-      await requestCameraPermission();
-      await requestImageOrStoragePermission();
+      await GetAllPermissions();
       try {
         await AsyncStorage.setItem(local_store_key.IS_OLD_USER, JSON.stringify({ oldUser: true }))
       } catch (error) {
